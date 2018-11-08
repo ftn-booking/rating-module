@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import ftnbooking.rating.model.Score;
 
 @RestController
 @RequestMapping("/ratingService")
@@ -39,6 +42,26 @@ public class CommentController {
 		
 		
 		return new ResponseEntity<List<String>>(retVal, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/scores")
+	public ResponseEntity<List<Score>> getScores() 
+	{
+		ArrayList<Score> retVal = new ArrayList<Score>();
+		
+		retVal= ScoreManager.getScores();
+		
+		
+		return new ResponseEntity<List<Score>>(retVal, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/scores")
+	@ResponseStatus(value = HttpStatus.OK)
+	public void addScore(@RequestBody Score score) 
+	{
+		ScoreManager.addScore(score);
+		
+		
 	}
 	
 	
